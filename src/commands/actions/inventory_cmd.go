@@ -3,8 +3,8 @@ package actions
 import (
 	"fmt"
 	"os"
-	"strings"
 
+	"github.com/alessio/shellescape"
 	"github.com/openshift/assisted-installer-agent/src/util"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
@@ -20,13 +20,14 @@ type inventory struct {
 }
 
 func (a *inventory) Validate() error {
-	err := ValidateCommon("inventory", 1, a.args, nil)
-	if err != nil {
-		return err
+	if len(a.args) == 0 {
+		return fmt.Errorf("inventory cmd takes at least 1 param, given args %v", a.args)
 	}
+
 	if !strfmt.IsUUID(a.args[0]) {
-		return fmt.Errorf("inventory cmd accepts only 1 params in args and it should be UUID, given args %v", a.args)
+		return fmt.Errorf("inventory cmd 1st param in args should be a valid UUID, given args %v", a.args)
 	}
+
 	return nil
 }
 
@@ -99,7 +100,11 @@ func (a *inventory) Args() []string {
 		"inventory",
 	)
 
-	podmanRunCmd := strings.Join(podmanRunArgv, " ")
+	if len(a.args) > 1 {
+		podmanRunArgv = append(podmanRunArgv, a.args[1:]...)
+	}
+
+	podmanRunCmd := shellescape.QuoteCommand(podmanRunArgv)
 
 	return []string{"-c", fmt.Sprintf("%v && %v", mtabCopy, podmanRunCmd)}
 }

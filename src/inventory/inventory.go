@@ -1,7 +1,6 @@
 package inventory
 
 import (
-	"encoding/json"
 	"net"
 	"slices"
 	"sort"
@@ -40,7 +39,13 @@ func CreateInventoryInfo(inventoryConfig *config.InventoryConfig) []byte {
 		applyDryRunConfig(inventoryConfig, in)
 	}
 
-	b, _ := json.Marshal(&in)
+	b, err := CreateInventoryOutput(*inventoryConfig, in)
+	if err != nil {
+		logrus.WithError(err).Error("Failed to create inventory output")
+
+		return nil
+	}
+
 	return b
 }
 
