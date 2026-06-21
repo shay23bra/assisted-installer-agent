@@ -57,6 +57,11 @@ linters:
       - text: '"ok" shadows declaration'
         linters:
           - govet
+      # Test mock uses client.Do with test-only URLs — not a real SSRF risk
+      - text: "G704"
+        linters:
+          - gosec
+        path: _test\.go
     paths:
       - build
       - client
