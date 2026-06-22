@@ -50,6 +50,8 @@ func CreateInventoryOutput(inventoryConfig config.InventoryConfig, in *models.In
 
 	logrus.Warnf("Inventory size is still too large (%d bytes), it will be fully truncated", len(ret))
 
+	logrus.WithField("truncated_inventory", string(ret)).Info("Dumping partial inventory")
+
 	empty := &models.Inventory{
 		Truncation: &models.InventoryTruncation{
 			Type: models.InventoryTruncationTypeFull,
