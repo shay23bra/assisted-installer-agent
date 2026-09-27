@@ -1,8 +1,8 @@
 module github.com/openshift/assisted-installer-agent
 
-go 1.26.0
+go 1.25.0
 
-toolchain go1.26.7
+toolchain go1.25.14
 
 require (
 	github.com/PuerkitoBio/rehttp v1.4.0
@@ -160,7 +160,7 @@ require (
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/vincent-petithory/dataurl v1.0.0 // indirect
-	go.mongodb.org/mongo-driver v1.17.10 // indirect
+	go.mongodb.org/mongo-driver v1.14.0 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
